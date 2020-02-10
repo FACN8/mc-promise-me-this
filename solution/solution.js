@@ -1,40 +1,32 @@
-const https = require('https')
+const axios = require('axios');
 
-const makePokeUrl = pokemon => `https://pokeapi.co/api/v2/pokemon/${pokemon}/`
-const pikaUrl = makePokeUrl('pikachu')
+const makePokeUrl = pokemon => `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
+const pikaUrl = makePokeUrl('pikachu');
 
 // challenge 1
-const myPromiseApi = url => {
+const myApiCall = (url) => {
   return new Promise((resolve, reject) => {
-    https
-      .get(url, resp => {
-        let data = ''
-        resp.on('data', chunk => {
-          data += chunk
-        })
-        resp.on('end', () => {
-          try {
-            resolve(JSON.parse(data))
-          } catch (e) {
-            reject('It dun broked')
-          }
-        })
+    axios
+      .get(url)
+      .then(res => {
+        resolve(res.data);
       })
-      .on('error', err => {
-        reject(err.message)
-      })
-  })
-}
+      .catch(error => {
+        reject(err.message);
+      });
+  });
+};
 
-myPromiseApi(pikaUrl)
+myApiCall(pikaUrl)
   .then(console.log)
-  .catch(console.log)
-
+  .catch(console.log);
+  
 // challenge 2
-const pikaPromise = myPromiseApi(pikaUrl)
-const itemPromise = jsonData => {
-  const itemUrl = jsonData.held_items[0].item.url
-  return myPromiseApi(itemUrl)
+const pikaPromise = myApiCall(pikaUrl)
+
+const itemPromise = data => {
+  const itemUrl = data.held_items[0].item.url
+  return myApiCall(itemUrl)
 }
 
 pikaPromise
@@ -48,9 +40,9 @@ const charUrl = makePokeUrl('charmander')
 const squirtUrl = makePokeUrl('squirtle')
 const bulbaUrl = makePokeUrl('bulbasaur')
 
-const charPromise = myPromiseApi(charUrl)
-const squirtPromise = myPromiseApi(squirtUrl)
-const bulbaPromise = myPromiseApi(bulbaUrl)
+const charPromise = myApiCall(charUrl)
+const squirtPromise = myApiCall(squirtUrl)
+const bulbaPromise = myApiCall(bulbaUrl)
 
 const promiseArray = [charPromise, squirtPromise, bulbaPromise]
 

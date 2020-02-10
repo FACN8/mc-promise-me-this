@@ -1,32 +1,23 @@
-const https = require('https')
+const axios = require('axios');
 
-const makePokeUrl = pokemon => `https://pokeapi.co/api/v2/pokemon/${pokemon}/`
-const pikaUrl = makePokeUrl('pikachu')
+const makePokeUrl = pokemon => `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
+const pikaUrl = makePokeUrl('pikachu');
 
 const myApiCall = (url, callback) => {
-  https
-    .get(url, resp => {
-      let data = ''
-      resp.on('data', chunk => {
-        data += chunk
-      })
-      resp.on('end', () => {
-        try {
-          callback(null, JSON.parse(data))
-        } catch (e) {
-          callback('Oops, this isn\'t JSON')
-        }
-      })
+  axios
+    .get(url)
+    .then(res => {
+      callback(null, res.data);
     })
-    .on('error', err => {
-      callback(err.message)
-    })
-}
+    .catch(error => {
+      callback(err.message);
+    });
+};
 
 myApiCall(pikaUrl, (err, res) => {
-  if (err) console.log(res)
-  else console.log(res)
-})
+  if (err) console.log(res);
+  else console.log(res);
+});
 
 //Now let's make it a Promise
 

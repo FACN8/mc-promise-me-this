@@ -99,7 +99,7 @@ readAFile
 Read [MDN's docs on Promises]( https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Creating_a_Promise) to see how they are written.
 
 ## Challenge One
-In `challenge.js` you will find code to make an api call using the http module. Your challenge is to refactor this code into a new Promise.
+In `challenge.js` you will find code to make an api call using the axios module. Your challenge is to refactor this code into a new Promise.
 
 Call your function from your terminal by typing:
 ```bash
