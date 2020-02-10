@@ -4,7 +4,7 @@ const makePokeUrl = pokemon => `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
 const pikaUrl = makePokeUrl('pikachu');
 
 // challenge 1
-const myApiCall = (url) => {
+const myPromiseApi = (url) => {
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -17,16 +17,16 @@ const myApiCall = (url) => {
   });
 };
 
-myApiCall(pikaUrl)
+myPromiseApi(pikaUrl)
   .then(console.log)
   .catch(console.log);
   
 // challenge 2
-const pikaPromise = myApiCall(pikaUrl)
+const pikaPromise = myPromiseApi(pikaUrl)
 
 const itemPromise = data => {
   const itemUrl = data.held_items[0].item.url
-  return myApiCall(itemUrl)
+  return myPromiseApi(itemUrl)
 }
 
 pikaPromise
@@ -40,9 +40,9 @@ const charUrl = makePokeUrl('charmander')
 const squirtUrl = makePokeUrl('squirtle')
 const bulbaUrl = makePokeUrl('bulbasaur')
 
-const charPromise = myApiCall(charUrl)
-const squirtPromise = myApiCall(squirtUrl)
-const bulbaPromise = myApiCall(bulbaUrl)
+const charPromise = myPromiseApi(charUrl)
+const squirtPromise = myPromiseApi(squirtUrl)
+const bulbaPromise = myPromiseApi(bulbaUrl)
 
 const promiseArray = [charPromise, squirtPromise, bulbaPromise]
 
